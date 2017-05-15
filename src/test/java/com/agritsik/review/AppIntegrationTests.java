@@ -1,6 +1,6 @@
 package com.agritsik.review;
 
-import com.agritsik.review.context.PlayerContext;
+import com.agritsik.review.context.UserContext;
 import com.agritsik.review.context.TranslatorContext;
 import com.agritsik.review.context.WordContext;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class AppIntegrationTests {
 	Flow flow;
 
 	@Autowired
-	PlayerContext playerContext;
+	UserContext userContext;
 
 	@Autowired
 	WordContext wordContext;
@@ -33,7 +33,7 @@ public class AppIntegrationTests {
 	public void contextLoads() throws IOException, URISyntaxException {
 		flow.run();
 
-		System.out.println(playerContext.getTopPlayers());
+		System.out.println(userContext.getTopUsers());
 		System.out.println(wordContext.getTopWords());
 		System.out.println(translatorContext.tranlsate("Love's it!,My 12 month old loves this salmon.  These containers are great for traveling and make easy meals!"));
 

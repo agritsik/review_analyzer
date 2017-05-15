@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Random;
 
-public class PlayerContextTest {
+public class UserContextTest {
 
     public static final String PREFIX = "A3SGXH7AUHU8G";
 
@@ -15,12 +15,12 @@ public class PlayerContextTest {
     public void testTopPlayers() throws Exception {
 
         // arrange
-        PlayerContext playerContext = new PlayerContext(new InMemoryLeaderboard());
+        UserContext userContext = new UserContext(new InMemoryLeaderboard());
         new Random().ints(20, 0, 5).forEach(value ->
-                playerContext.addReview("1,B001E4KFG0," + PREFIX + value + ",delmartian"));
+                userContext.addReview("1,B001E4KFG0," + PREFIX + value + ",delmartian"));
 
         // act
-        List<String> topPlayers = playerContext.getTopPlayers();
+        List<String> topPlayers = userContext.getTopUsers();
 
         // assert
         System.out.println(topPlayers);

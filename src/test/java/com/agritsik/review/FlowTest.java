@@ -1,7 +1,8 @@
 package com.agritsik.review;
 
-import com.agritsik.review.context.PlayerContext;
+import com.agritsik.review.context.ProductContext;
 import com.agritsik.review.context.TranslatorContext;
+import com.agritsik.review.context.UserContext;
 import com.agritsik.review.context.WordContext;
 import com.agritsik.review.dictionary.InMemoryDictionary;
 import com.agritsik.review.leaderboard.InMemoryLeaderboard;
@@ -25,16 +26,18 @@ public class FlowTest {
         // arrange
         Observable<String> observable = fileObservable();
 
-        PlayerContext playerContext = new PlayerContext(new InMemoryLeaderboard());
+        UserContext userContext = new UserContext(new InMemoryLeaderboard());
+        ProductContext productContext = new ProductContext(new InMemoryLeaderboard());
         WordContext wordContext = new WordContext(new SimpleTokenizer(), new InMemoryLeaderboard());
         TranslatorContext translatorContext = new TranslatorContext(new InMemoryDictionary(), new GoogleTranslator());
-        Flow flow = new Flow(observable, playerContext, wordContext, translatorContext);
+        Flow flow = new Flow(observable, userContext, productContext, wordContext, translatorContext);
 
         // act
         flow.run();
 
         // assert
-        System.out.println(playerContext.getTopPlayers());
+        System.out.println(userContext.getTopUsers());
+        System.out.println(productContext.getTopProducts());
         System.out.println(wordContext.getTopWords());
         System.out.println(translatorContext.tranlsate("If I were you"));
 

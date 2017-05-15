@@ -1,7 +1,8 @@
 package com.agritsik.review;
 
-import com.agritsik.review.context.PlayerContext;
+import com.agritsik.review.context.ProductContext;
 import com.agritsik.review.context.TranslatorContext;
+import com.agritsik.review.context.UserContext;
 import com.agritsik.review.context.WordContext;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
@@ -18,31 +19,37 @@ import java.util.concurrent.Executors;
 public class Flow {
 
     private Observable<String> source;
-    private PlayerContext playerContext;
+    private UserContext userContext;
+    private ProductContext productContext;
     private WordContext wordContext;
     private TranslatorContext translatorContext;
 
     @Autowired
-    public Flow(Observable<String> source, PlayerContext playerContext, WordContext wordContext, TranslatorContext translatorContext) {
+    public Flow(Observable<String> source, UserContext userContext, ProductContext productContext, WordContext wordContext, TranslatorContext translatorContext) {
         this.source = source;
-        this.playerContext = playerContext;
+        this.userContext = userContext;
+        this.productContext = productContext;
         this.wordContext = wordContext;
         this.translatorContext = translatorContext;
     }
 
-
-    void run() throws URISyntaxException, IOException {
+    public void run() throws URISyntaxException, IOException {
 
         ConnectableObservable<String> observable = source.publish();
 
         observable
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(playerContext::addReview);
+                .subscribeOn(Schedulers.newThread()) // in a separate Thread
+                .subscribe(userContext::addReview);
 
         observable
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.newThread()) // in a separate Thread
+                .subscribe(productContext::addReview);
+
+        observable
+                .subscribeOn(Schedulers.computation()) // use all available CPUs
                 .subscribe(wordContext::addSentence);
 
+        // Fixed thread pool. If we didn't have limitation, I would use IoScheduler though.
         Scheduler scheduler = Schedulers.from(Executors.newFixedThreadPool(100));
         observable.flatMap(i -> Observable.just(i)
                 .subscribeOn(scheduler)
@@ -55,6 +62,5 @@ public class Flow {
         observable.connect();
 
     }
-
 
 }
