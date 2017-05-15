@@ -30,8 +30,7 @@ public class Flow {
         this.translatorContext = translatorContext;
     }
 
-
-    void run() throws URISyntaxException, IOException {
+    public void run() throws URISyntaxException, IOException {
 
         ConnectableObservable<String> observable = source.publish();
 
