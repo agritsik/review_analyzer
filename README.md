@@ -1,6 +1,6 @@
 # Review analyser
 
-## Features Overview
+## Features Implementation Overview
 
 Top users and products:
 1. `InMemoryLeaderboard.java` - plain java code. Keeps data in map and uses java streams to order data.
@@ -17,7 +17,7 @@ Translator:
 
 1. Run tests and build a project `mvn clean package`
 1. Run the application `java -Xmx512m -jar target/review-0.0.1-SNAPSHOT.jar`
-1. Load initial data from `/tmp/1.txt` via `GET http://localhost:8080/load`. *Default path to file isn't configurable yet'*
+1. Load initial data from `/tmp/1.txt` via `GET http://localhost:8080/load`. *Default path to file isn't configurable yet*
 1. Check top users `GET http://localhost:8080/users`
 Expected response:
 ```
@@ -34,7 +34,7 @@ Expected response:
     "AQQLWCMRNDFGI"
 ]
 ```
-1. Check top products `GET http://localhost:8080/products`
+5. Check top products `GET http://localhost:8080/products`
 Expected response:
 ```
 [
@@ -50,7 +50,23 @@ Expected response:
     "B001RVFEP2"
 ]
 ```
-1. Translate a text `POST http://localhost:8080/translate` with body `{"text": "1"}`
+6. Check top words `GET http://localhost:8080/words`
+Expected response:
+```
+[
+    "and",
+    "it",
+    "of",
+    "for",
+    "my",
+    "have",
+    "\"i",
+    "was",
+    "are",
+    "with"
+]
+```
+7. Translate a text `POST http://localhost:8080/translate` with body `{"text": "1"}`
 Expected response: `je ne parle pas francais`
 
 ## Development approach
@@ -71,5 +87,13 @@ Expected response: `je ne parle pas francais`
 ![visualVM](/wiki/1.png)
 
 
-## TODO
-1.
+## TODO 
+1. Add Unit Tests for each class
+1. Improve Integration Tests using RxJava test utils
+1. [BUG] Use user name rather than id
+1. [BUG] Improve SimpleTokenizer - add more words to skip (prepositions etc), remove special characters etc
+1. Implement GoogleTranslator using spring RestTemplate
+1. Improve GoogleTranslator using Circuit Breaker
+1. Implement RedisLeaderboard
+1. Implement LuceneTokenizer
+1. Consider `rxjava-file` to real streaming rather than loading the whole file in memory
