@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PlayerContext {
+public class UserContext {
     private Leaderboard leaderboard;
 
-    public PlayerContext(Leaderboard leaderboard) {
+    public UserContext(Leaderboard leaderboard) {
         this.leaderboard = leaderboard;
     }
 
-    public List<String> getTopPlayers(){
+    public List<String> getTopUsers(){
         System.out.println(this.leaderboard.top());
         return this.leaderboard.top().entrySet().stream()
                 .map(Map.Entry::getKey).collect(Collectors.toList());

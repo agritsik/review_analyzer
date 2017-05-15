@@ -1,7 +1,8 @@
 package com.agritsik.review;
 
-import com.agritsik.review.context.PlayerContext;
+import com.agritsik.review.context.ProductContext;
 import com.agritsik.review.context.TranslatorContext;
+import com.agritsik.review.context.UserContext;
 import com.agritsik.review.context.WordContext;
 import com.agritsik.review.dictionary.InMemoryDictionary;
 import com.agritsik.review.leaderboard.InMemoryLeaderboard;
@@ -22,8 +23,13 @@ import java.util.stream.Stream;
 public class AppConfiguration {
 
     @Bean
-    PlayerContext playerContext() {
-        return new PlayerContext(new InMemoryLeaderboard());
+    UserContext userContext() {
+        return new UserContext(new InMemoryLeaderboard());
+    }
+
+    @Bean
+    ProductContext productContext() {
+        return new ProductContext(new InMemoryLeaderboard());
     }
 
     @Bean
